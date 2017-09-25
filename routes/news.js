@@ -1,13 +1,23 @@
 var express = require('express');
+var config = require('../config');
+var request = require('request');
 var router = express.Router();
 
-/* GET users listing. */
+var BASE_URL = config.BASE_URL;
+var API_KEY = config.API_KEY;
+
 router.get('/sources', function(req, res, next) {
-  res.send('sources endpoint');
+	request({
+		url: BASE_URL + '/sources',
+		qs: req.query
+	}).pipe(res);
 });
 
-router.get('/news', function(req, res, next) {
-	res.send('news endpoint');
+router.get('/articles', function(req, res, next) {
+	request({
+		url: BASE_URL + '/articles?apiKey=' + API_KEY,
+		qs: req.query
+	}).pipe(res);
 });
 
 module.exports = router;
